@@ -14,6 +14,7 @@ import {
   useMediaQuery,
   Typography,
   Paper,
+  useTheme,
 } from "@mui/material";
 import axios from "axios";
 
@@ -22,7 +23,9 @@ const TodoList = () => {
   const [task, setTask] = useState("");
   const [editId, setEditId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -82,25 +85,35 @@ const TodoList = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ marginTop: "50px" }}>
-      <Paper elevation={3} sx={{ padding: "20px", borderRadius: "10px" }}>
+    <Container maxWidth="md" sx={{ mt: 5 }}>
+      <Paper elevation={3} sx={{ p: 3, borderRadius: "10px" }}>
         <Typography variant="h4" align="center" gutterBottom>
           To-do List
         </Typography>
 
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item xs={12} sm={8} md={6}>
-            <TextField label="Enter a Task" value={task} onChange={(e) => setTask(e.target.value)} fullWidth />
+          <Grid item xs={12} sm={8}>
+            <TextField
+              label="Enter a Task"
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+              fullWidth
+            />
           </Grid>
-          <Grid item xs={12} sm={4} md={2}>
-            <Button variant="contained" sx={{ backgroundColor: "#1976d2", color: "white" }} onClick={addTask} fullWidth>
+          <Grid item xs={12} sm={4}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "#1976d2", color: "white" }}
+              onClick={addTask}
+              fullWidth
+            >
               Add
             </Button>
           </Grid>
         </Grid>
 
         {tasks.length > 0 && (
-          <Container maxWidth="md" sx={{ marginTop: "30px", overflowX: "auto" }}>
+          <Container sx={{ mt: 4, overflowX: "auto" }}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -116,13 +129,23 @@ const TodoList = () => {
                     <TableCell>{item.task}</TableCell>
                     <TableCell>
                       <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                          <Button variant="contained" sx={{ backgroundColor: "#ff9800", color: "white" }} fullWidth onClick={() => openEditModal(item.id, item.task)}>
+                        <Grid item xs={12} sm={6}>
+                          <Button
+                            variant="contained"
+                            sx={{ backgroundColor: "#ff9800", color: "white" }}
+                            fullWidth
+                            onClick={() => openEditModal(item.id, item.task)}
+                          >
                             Edit
                           </Button>
                         </Grid>
-                        <Grid item xs={6}>
-                          <Button variant="contained" sx={{ backgroundColor: "#d32f2f", color: "white" }} fullWidth onClick={() => deleteTask(item.id)}>
+                        <Grid item xs={12} sm={6}>
+                          <Button
+                            variant="contained"
+                            sx={{ backgroundColor: "#d32f2f", color: "white" }}
+                            fullWidth
+                            onClick={() => deleteTask(item.id)}
+                          >
                             Delete
                           </Button>
                         </Grid>
@@ -136,19 +159,46 @@ const TodoList = () => {
         )}
 
         <Modal open={isModalOpen} onClose={closeModal}>
-          <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: isSmallScreen ? 300 : 400, bgcolor: "white", p: 4, boxShadow: 24, borderRadius: "10px" }}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: isSmallScreen ? "85%" : 400,
+              bgcolor: "background.paper",
+              p: 3,
+              boxShadow: 24,
+              borderRadius: 2,
+            }}
+          >
             <Typography variant="h6" gutterBottom>
               Edit Task
             </Typography>
-            <TextField fullWidth label="Task" value={task} onChange={(e) => setTask(e.target.value)} />
-            <Grid container spacing={2} marginTop={2}>
-              <Grid item xs={6}>
-                <Button variant="contained" sx={{ backgroundColor: "#388e3c", color: "white" }} fullWidth onClick={saveTask}>
+            <TextField
+              fullWidth
+              label="Task"
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+            />
+            <Grid container spacing={2} mt={2}>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: "#388e3c", color: "white" }}
+                  fullWidth
+                  onClick={saveTask}
+                >
                   Save
                 </Button>
               </Grid>
-              <Grid item xs={6}>
-                <Button variant="contained" sx={{ backgroundColor: "#757575", color: "white" }} fullWidth onClick={closeModal}>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: "#757575", color: "white" }}
+                  fullWidth
+                  onClick={closeModal}
+                >
                   Cancel
                 </Button>
               </Grid>
@@ -159,4 +209,5 @@ const TodoList = () => {
     </Container>
   );
 };
+
 export default TodoList;

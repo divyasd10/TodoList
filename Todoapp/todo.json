@@ -1,20 +1,12 @@
 {
   "datas": [
     {
-      "id": "aa6b",
+      "id": "2b2b",
       "task": "Learn Axios"
     },
     {
-      "id": "25cc",
+      "id": "bb85",
       "task": "Learn React "
-    },
-    {
-      "id": "1d98",
-      "task": "Learning MUI"
-    },
-    {
-      "id": "25fe",
-      "task": "Learn JavaScript"
     }
   ]
 }
