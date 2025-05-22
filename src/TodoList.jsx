@@ -15,6 +15,9 @@ import {
   Typography,
   Paper,
   useTheme,
+  Card,
+  CardContent,
+  CardActions,
 } from "@mui/material";
 import axios from "axios";
 
@@ -86,65 +89,83 @@ const TodoList = () => {
 
   return (
     <Container maxWidth="md" sx={{ mt: 5 }}>
-      <Paper elevation={3} sx={{ p: 3, borderRadius: "10px" }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          To-do List
+      <Paper elevation={6} sx={{ p: 4, borderRadius: 4, backgroundColor: "#f0f4f8" }}>
+        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: "bold", color: "#333" }}>
+          📝 To-do List
         </Typography>
 
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item xs={12} sm={8}>
-            <TextField
-              label="Enter a Task"
-              value={task}
-              onChange={(e) => setTask(e.target.value)}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: "#1976d2", color: "white" }}
-              onClick={addTask}
-              fullWidth
-            >
-              Add
-            </Button>
-          </Grid>
-        </Grid>
+        <Card variant="outlined" sx={{ mb: 4, p: 2, borderRadius: 3 }}>
+          <CardContent>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={9}>
+                <TextField
+                  label="Enter a Task"
+                  value={task}
+                  onChange={(e) => setTask(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <Button
+                  variant="contained"
+                  onClick={addTask}
+                  fullWidth
+                  sx={{
+                    height: "100%",
+                    backgroundColor: "#4CAF50",
+                    ":hover": { backgroundColor: "#45a049" },
+                    color: "white",
+                  }}
+                >
+                  Add Task
+                </Button>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
 
         {tasks.length > 0 && (
-          <Container sx={{ mt: 4, overflowX: "auto" }}>
+          <Container sx={{ overflowX: "auto" }}>
             <Table>
-              <TableHead>
+              <TableHead sx={{ backgroundColor: "#e0e0e0" }}>
                 <TableRow>
-                  <TableCell>Sl.No</TableCell>
-                  <TableCell>Task</TableCell>
-                  <TableCell>Actions</TableCell>
+                  <TableCell><strong>Sl.No</strong></TableCell>
+                  <TableCell><strong>Task</strong></TableCell>
+                  <TableCell align="center"><strong>Actions</strong></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {tasks.map((item, index) => (
-                  <TableRow key={item.id}>
+                  <TableRow key={item.id} hover>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{item.task}</TableCell>
-                    <TableCell>
-                      <Grid container spacing={1}>
-                        <Grid item xs={12} sm={6}>
+                    <TableCell align="center">
+                      <Grid container spacing={1} justifyContent="center">
+                        <Grid item>
                           <Button
+                            size="small"
                             variant="contained"
-                            sx={{ backgroundColor: "#ff9800", color: "white" }}
-                            fullWidth
                             onClick={() => openEditModal(item.id, item.task)}
+                            sx={{
+                              backgroundColor: "#2196F3",
+                              ":hover": { backgroundColor: "#1976D2" },
+                              color: "white",
+                            }}
                           >
                             Edit
                           </Button>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item>
                           <Button
+                            size="small"
                             variant="contained"
-                            sx={{ backgroundColor: "#d32f2f", color: "white" }}
-                            fullWidth
                             onClick={() => deleteTask(item.id)}
+                            sx={{
+                              backgroundColor: "#f44336",
+                              ":hover": { backgroundColor: "#d32f2f" },
+                              color: "white",
+                            }}
                           >
                             Delete
                           </Button>
@@ -165,39 +186,38 @@ const TodoList = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: isSmallScreen ? "85%" : 400,
-              bgcolor: "background.paper",
-              p: 3,
+              width: isSmallScreen ? "90%" : 400,
+              bgcolor: "#fff",
+              p: 4,
               boxShadow: 24,
-              borderRadius: 2,
+              borderRadius: 3,
             }}
           >
-            <Typography variant="h6" gutterBottom>
-              Edit Task
-            </Typography>
+            <Typography variant="h6" gutterBottom>Edit Task</Typography>
             <TextField
               fullWidth
               label="Task"
               value={task}
               onChange={(e) => setTask(e.target.value)}
+              variant="outlined"
             />
             <Grid container spacing={2} mt={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6}>
                 <Button
-                  variant="contained"
-                  sx={{ backgroundColor: "#388e3c", color: "white" }}
                   fullWidth
+                  variant="contained"
                   onClick={saveTask}
+                  sx={{ backgroundColor: "#4CAF50", ":hover": { backgroundColor: "#388e3c" }, color: "white" }}
                 >
                   Save
                 </Button>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6}>
                 <Button
-                  variant="contained"
-                  sx={{ backgroundColor: "#757575", color: "white" }}
                   fullWidth
+                  variant="contained"
                   onClick={closeModal}
+                  sx={{ backgroundColor: "#9e9e9e", ":hover": { backgroundColor: "#757575" }, color: "white" }}
                 >
                   Cancel
                 </Button>
